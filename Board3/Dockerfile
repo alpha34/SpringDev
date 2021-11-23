@@ -1,4 +1,4 @@
-FROM java8
+FROM java:8
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
