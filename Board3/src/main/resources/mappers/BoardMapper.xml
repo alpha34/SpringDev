@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board3.mapper.BoardMapper">
+	
+		<insert id="insertBoard" parameterType="com.board3.domain.BoardDTO">
+			INSERT INTO BOARD (
+				  seq
+				, title
+				, writer
+				, content
+				, regdate
+				, cnt
+			) VALUES (
+			      (select max(seq)+1 from BOARD)
+				, #{title}
+				, #{writer}
+				, #{content}
+				, (select sysdate from dual)
+				, 0
+			)
+		</insert>
+	
+		<select id="selectBoardDetail" parameterType="com.board3.domain.BoardDTO" resultType="com.board3.domain.BoardDTO">
+			SELECT
+				  seq
+				, title
+				, writer
+				, content
+				, regdate
+				, cnt
+			FROM
+				BOARD
+			WHERE
+				seq = #{seq}
+		</select>
+	
+		<update id="updateBoard" parameterType="com.board3.domain.BoardDTO">
+			UPDATE BOARD
+			SET
+				 title = #{title}
+				, content = #{content}
+			WHERE
+				seq = #{seq}
+		</update>
+	
+		<delete id="deleteBoard" parameterType="com.board3.domain.BoardDTO">
+			delete BOARD
+			WHERE
+				seq = #{seq}
+		</delete>
+	
+		<select id="selectBoardList" parameterType="com.board3.domain.BoardDTO" resultType="com.board3.domain.BoardDTO">
+			SELECT
+				  seq
+				, title
+				, writer
+				, content
+				, TO_CHAR(regdate,'YYYY/MM/DD') as regdate
+				, cnt
+			FROM
+				BOARD
+			ORDER BY
+				seq DESC
+		</select>
+	
+</mapper>
